@@ -10,8 +10,13 @@ function Table() {
     
     // STATE FOR TRACKING THE ID
     const [currentId, setCurrentId] = useState('')
+
+    // STATES FOR EDIT MODAL
     const [currentTitle, setCurrentTitle] = useState('')
     const [currentCategory, setCurrentCategory] = useState('')
+    const [currentPrice, setCurrentPrice] = useState ('')
+    const [currentDescription, setCurrentDescription] = useState ('')
+    const [currentImage, setCurrentImage] = useState ('')
 
     // STATE FOR SHOWING DATA TABLE
     const[item, setItem] = useState([])
@@ -130,7 +135,6 @@ function Table() {
             .then(response=> {console.log(response); setShouldRerender(!shouldRerender) })
             .catch(error => {console.log(error)})
       }
-// const stockIndex = item[currentId -1].title
 
 
   return (
@@ -175,10 +179,11 @@ function Table() {
                         className='me-3 btn btn-primary ml-auto d-block mb-2'
                         data-bs-toggle='modal'
                         data-bs-target='#editModalForm'
-                        onClick={() => {setCurrentId (post.id); setCurrentTitle(post.title); setCurrentCategory(post.category)}}
+                        onClick={() => {setCurrentId (post.id); setCurrentTitle(post.title); setCurrentCategory(post.category); setCurrentPrice(post.price);
+                        setCurrentDescription(post.item_description); setCurrentImage(post.image)}}
                         > 
                             Edit
-                        </button> {/*STATE FOR TRACKING ID */}
+                        </button> {/*STATE FOR TRACKING ID AND AUTO POPULATING FIELDS WHEN UPDATING */}
                                 </td>
                             </tr>
                             )}
@@ -197,7 +202,6 @@ function Table() {
                             <div className='mb-3'>
                                 <label className='form-label'>Id</label>
                                 <input type='text' className='form-control' name='id' placeholder='Id' required onChange={handleChange("id")}/>
-                                {/* BUG - Need to figure out how to disable this field without breaking the back end  */}
                             </div>
                             <div className='mb-3'>
                                 <label className='form-label'>Title</label>
@@ -243,29 +247,28 @@ function Table() {
                             </div>
                             <div className='mb-3'>
                                 <label className='form-label'>Title</label>
-                                <input type='text' className='form-control' name='title' placeholder='{stockIndex}' value={currentTitle} onChange={handleEditChange("title")} />
+                                <input type='text' className='form-control' name='title' value={currentTitle} onChange={handleEditChange("title")} />
                             </div>
                             <div className='mb-3'>
                                 <label className='form-label'>Price</label>
-                                <input type='text' className='form-control' name='price' placeholder='Price' onChange={handleEditChange("price")} />
+                                <input type='text' className='form-control' name='price' value={currentPrice} onChange={handleEditChange("price")} />
                             </div>
                             <div className='mb-3'>
                                 <label className='form-label'>Item Description</label>
-                                <input type='text' className='form-control' name='item-description' placeholder='Item Description'  onChange={handleEditChange("item_description")} />
+                                <input type='text' className='form-control' name='item-description' value={currentDescription}  onChange={handleEditChange("item_description")} />
                             </div>
                             <div className='mb-3'>
                                 <label className='form-label'>Category</label>
-                                <input type='text' className='form-control' name='category' placeholder='Category' value={currentCategory} onChange={handleEditChange("category")} />
+                                <input type='text' className='form-control' name='category' value={currentCategory} onChange={handleEditChange("category")} />
                             </div>
                             <div className='mb-3'>
                                 <label className='form-label'>Image</label>
-                                <input type='text' className='form-control' name='image' placeholder='Image' onChange={handleEditChange("image")} />
+                                <input type='text' className='form-control' name='image' value={currentImage} onChange={handleEditChange("image")} />
                             </div>
                             <div className='modal-footer d-block'> 
                             {/* CALLING UPDATE ROUTE FUNCTION */}
                                 <button onClick={editData}type='save' data-bs-dismiss='modal' className='btn btn-success float-end'>Save Item</button>
-                            {/* CALLING DELETE ROUTE FUNCTION */}
-                            {/* Bug - the screen tries to rerender but requires to be refreshed manually to repopulate table */}  
+                            {/* CALLING DELETE ROUTE FUNCTION */} 
                                 <button onClick={deleteData} type='delete' data-bs-dismiss='modal' className='btn btn-danger float-start'>Delete Item</button>
                             </div>
                         </form>
