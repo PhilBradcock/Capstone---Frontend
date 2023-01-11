@@ -6,17 +6,21 @@ import { CartContext } from '../App';
 
 
 function Navbar () {
-const {cart, setAddToCart} = useContext (CartContext);
-const {setCurrentUser} = useContext (CurrentUserContext);
-console.log(cart)
 
-// Admin access to Stock page
+// USER CART CONTEXT
+const {cart, setAddToCart} = useContext (CartContext);
+
+// ADMIN USER CONTEXT
+const {setCurrentUser} = useContext (CurrentUserContext);
+
+
+// ONCE ADMIN IS LOGGED IN STOCK PAGE WILL APPEAR
 
   const stock =  <li className="nav-item" key="5"> <NavLink className="nav-link active" to="/stock">Stock</NavLink></li>
   const currentUserString = localStorage.getItem('currentUser');
   const currentUser = JSON.parse(currentUserString);
 
-  // YOU NEED TO DO MANUAL REFRESH FOR STOCK PAGE TO DISAPPEAR
+  // ONCE ADMIN LOGS OUT STOCK PAGE DISAPPEARS
 
 const loggingOff = () => {
   localStorage.removeItem('currentUser');
@@ -42,17 +46,10 @@ console.log(currentUser)
         <li className="nav-item" key="2">
           <NavLink className="nav-link active" to="/products">Products</NavLink>
         </li>
-        {/* <li className="nav-item" key="3">
-          <NavLink className="nav-link active" to="/about">About</NavLink>
-        </li> */}
         <li className="nav-item" key="4">
           <NavLink className="nav-link active" to="/contact">Contact</NavLink>
         </li>
-       
         {currentUser && currentUser.UserAdmin ? stock : null}
-        {/* {currentUser && currentUser.UserAdmin ? <li className="nav-item" key="5"> null <NavLink className="nav-link active" to="/stock">Stock</NavLink></li> : null} */}
-        
-       
       </ul>
        {/* Updated icons using Font Awesome Icons */}
       <div className="buttons">
@@ -61,7 +58,7 @@ console.log(currentUser)
         <NavLink to="/" className='btn btn-outline-dark'>
             <i className='fa fa-sign-out ms-2' onClick={loggingOff}></i> Logout</NavLink>
         <NavLink to="/cart" className='btn btn-outline-dark'>
-            <i className='fa fa-shopping-cart ms-2'></i> Cart ({cart.length})</NavLink>
+            <i className='fa fa-shopping-cart ms-2'></i> Cart ({cart.length})</NavLink> {/* FOR ADDING ITEMS TO CART ICON */}
       </div>
     </div>
   </div>
